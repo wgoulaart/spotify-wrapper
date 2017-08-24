@@ -42,25 +42,37 @@ describe('Spotfy Wrapper', () => {
   });
 
   describe('Generic Search', () => {
-    it('should call fetch function', () => {
-      const fetchedStub = sinon.stub(global, 'fetch');
-      const artists = search();
+    let fetchedStub;
 
-      expect(fetchedStub).to.have.been.calledOnce;
+    beforeEach(() => {
+      fetchedStub = sinon.stub(global, 'fetch');
+    });
 
+    afterEach(() => {
       fetchedStub.restore();
     });
 
-    it('should receive the correct url to fetch', () => {
-      const fetchedStub = sinon.stub(global, 'fetch');
+    it('should call fetch function', () => {
+      const artists = search();
+      expect(fetchedStub).to.have.been.calledOnce;
+    });
 
-      const artists = search('acdc', 'artist');
-      expect(fetchedStub).to.have.been
-      .calledWith('https://api.spotify.com/v1/search?q=acdc&type=artist');
+    it('should call fetch with the correct URL', () => {
+      context('passing one type', () => {
+        const artists = search('acdc', 'artist');
+        expect(fetchedStub).to.have.been
+          .calledWith('https://api.spotify.com/v1/search?q=acdc&type=artist');
 
-      const albums = search('acdc', 'album');
-      expect(fetchedStub).to.have.been
-        .calledWith('https://api.spotify.com/v1/search?q=acdc&type=album');
+        const albums = search('acdc', 'album');
+        expect(fetchedStub).to.have.been
+          .calledWith('https://api.spotify.com/v1/search?q=acdc&type=album');
+      });
+
+      context('passing more than one type', () => {
+        const artistsAndAlbums = search('acdc', ['artist', 'album']);
+        expect(fetchedStub).to.have.been
+          .calledWith('https://api.spotify.com/v1/search?q=acdc&type=artist,album');
+      });
     });
   });
 });
