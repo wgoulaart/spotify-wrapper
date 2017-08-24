@@ -27,4 +27,10 @@ describe('Spotfy Wrapper', () => {
 
   });
 
+  describe('Generic Search', () => {
+    it('should call fetch function', () => {
+      const artist = search();
+    });
+  });
+
 });
