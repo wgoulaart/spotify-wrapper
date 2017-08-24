@@ -43,9 +43,11 @@ describe('Spotfy Wrapper', () => {
 
   describe('Generic Search', () => {
     let fetchedStub;
+    let promise;
 
     beforeEach(() => {
       fetchedStub = sinon.stub(global, 'fetch');
+      promise = fetchedStub.returnsPromise();
     });
 
     afterEach(() => {
@@ -74,5 +76,15 @@ describe('Spotfy Wrapper', () => {
           .calledWith('https://api.spotify.com/v1/search?q=acdc&type=artist,album');
       });
     });
+
+    it('should return the JSON Data from the Promise', () => {
+      promise.resolves({ body: 'json' });
+      const artists = search('acdc', 'artist');
+
+      // Using .eql because is to deeply equal
+      expect(artists.resolveValue).to.be.eql({ body: 'json' });
+
+    });
+
   });
 });
