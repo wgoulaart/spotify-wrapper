@@ -13,12 +13,22 @@ sinonStubPromise(sinon);
 global.fetch = require('node-fetch');
 
 
-import { search, searchAlbums, searchArtist, searchTracks, searchPlaylists } from '../src/main';
+import { search, searchAlbums, searchArtists, searchTracks, searchPlaylists } from '../src/main';
 
 describe('Spotfy Wrapper', () => {
+  let fetchedStub;
+  let promise;
+
+  beforeEach(() => {
+    fetchedStub = sinon.stub(global, 'fetch');
+    promise = fetchedStub.returnsPromise();
+  });
+
+  afterEach(() => {
+    fetchedStub.restore();
+  });
 
   describe('smoke tests', () => {
-
     it('should exist the search method', () => {
       expect(search).to.exist;
     });
@@ -28,32 +38,20 @@ describe('Spotfy Wrapper', () => {
     });
 
     it('should exist the searchArtist method', () => {
-      expect(searchArtist).to.exist;
+      expect(searchArtists).to.exist;
     });
 
     it('should exist the searchTracks method', () => {
       expect(searchTracks).to.exist;
     });
 
-    it('should exist the searchPlaylists', () => {
+    it('should exist the searchPlaylist', () => {
       expect(searchPlaylists).to.exist;
     });
 
   });
 
   describe('Generic Search', () => {
-    let fetchedStub;
-    let promise;
-
-    beforeEach(() => {
-      fetchedStub = sinon.stub(global, 'fetch');
-      promise = fetchedStub.returnsPromise();
-    });
-
-    afterEach(() => {
-      fetchedStub.restore();
-    });
-
     it('should call fetch function', () => {
       const artists = search();
       expect(fetchedStub).to.have.been.calledOnce;
@@ -83,8 +81,62 @@ describe('Spotfy Wrapper', () => {
 
       // Using .eql because is to deeply equal
       expect(artists.resolveValue).to.be.eql({ body: 'json' });
+    });
+  });
 
+  describe('SearchAlbums', () => {
+    it('should call fetch function', () => {
+      const albums = searchAlbums('acdc');
+      expect(fetchedStub).to.have.been.calledOnce;
+    });
+
+    it('should call fetch with the correct URL', () => {
+      const albums = searchAlbums('acdc');
+      expect(fetchedStub).to.have.been
+        .calledWith('https://api.spotify.com/v1/search?q=acdc&type=albums');
     });
 
   });
+
+  describe('SearchArtists', () => {
+    it('should call fetch function', () => {
+      const artist = searchArtists('acdc');
+      expect(fetchedStub).to.have.been.calledOnce;
+    });
+
+    it('should call fetch with the correct URL', () => {
+      const artist = searchArtists('acdc');
+      expect(fetchedStub).to.have.been
+        .calledWith('https://api.spotify.com/v1/search?q=acdc&type=artist');
+    });
+
+  });
+
+  describe('SearchTracks', () => {
+    it('should call fetch function', () => {
+      const track = searchTracks('acdc');
+      expect(fetchedStub).to.have.been.calledOnce;
+    });
+
+    it('should call fetch with the correct URL', () => {
+      const track = searchTracks('acdc');
+      expect(fetchedStub).to.have.been
+        .calledWith('https://api.spotify.com/v1/search?q=acdc&type=track');
+    });
+  });
+
+  describe('SearchPlaylists', () => {
+    it('should call fetch function', () => {
+      const playlist = searchPlaylists('acdc');
+      expect(fetchedStub).to.have.been.calledOnce;
+    });
+
+    it('should call fetch with the correct URL', () => {
+      const playlist = searchPlaylists('acdc');
+      expect(fetchedStub).to.have.been
+        .calledWith('https://api.spotify.com/v1/search?q=acdc&type=playlist');
+    });
+  });
+
+
 });

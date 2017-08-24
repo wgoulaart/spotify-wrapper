@@ -3,9 +3,20 @@ const search = (query, type) =>
   fetch(`https://api.spotify.com/v1/search?q=${query}&type=${type}`)
     .then(data => data.json());
 
-const searchAlbums = () => {};
-const searchArtist = () => {};
-const searchTracks = () => {};
-const searchPlaylists = () => {};
+const searchAlbums = (query) => {
+  search(query, 'albums');
+};
 
-export { search, searchAlbums, searchArtist, searchTracks, searchPlaylists };
+const searchArtists = (query) => {
+  search(query, 'artist');
+};
+
+const searchTracks = (query) => {
+  search(query, 'track');
+};
+
+const searchPlaylists = (query) => {
+  search(query, 'playlist');
+};
+
+export { search, searchAlbums, searchArtists, searchTracks, searchPlaylists };
