@@ -1,4 +1,4 @@
-/* Global fetch */
+/* global fetch */
 const search = () => fetch('https://api.spotify.com/v1/search');
 const searchAlbums = () => {};
 const searchArtist = () => {};
