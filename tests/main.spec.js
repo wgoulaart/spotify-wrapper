@@ -93,7 +93,7 @@ describe('Spotfy Wrapper', () => {
     it('should call fetch with the correct URL', () => {
       const albums = searchAlbums('acdc');
       expect(fetchedStub).to.have.been
-        .calledWith('https://api.spotify.com/v1/search?q=acdc&type=albums');
+        .calledWith('https://api.spotify.com/v1/search?q=acdc&type=album');
     });
 
   });

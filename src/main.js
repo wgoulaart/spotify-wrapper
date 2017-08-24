@@ -4,7 +4,7 @@ const search = (query, type) =>
     .then(data => data.json());
 
 const searchAlbums = (query) => {
-  search(query, 'albums');
+  search(query, 'album');
 };
 
 const searchArtists = (query) => {
