@@ -1,4 +1,18 @@
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+import sinonStubPromise from 'sinon-stub-promise';
+
+// Informando para o chai usar a interface do sinon-chai
+chai.use(sinonChai);
+
+// Informando para o sinonStubPromise usar os métodos do sinon
+sinonStubPromise(sinon);
+
+// Criando variavel Global do Fetch -> node-fetch
+global.fetch = require('node-fetch');
+
+
 import { search, searchAlbums, searchArtist, searchTracks, searchPlaylists } from '../src/main';
 
 describe('Spotfy Wrapper', () => {
@@ -29,7 +43,10 @@ describe('Spotfy Wrapper', () => {
 
   describe('Generic Search', () => {
     it('should call fetch function', () => {
-      const artist = search();
+      const fetchedStub = sinon.stub(global, 'fetch');
+      const artists = search();
+
+      expect(fetchedStub).to.have.been.calledOnce;
     });
   });
 
