@@ -1,6 +1,3 @@
-// getAlbum
-// getAlbums
-// getAlbumTracks
 import chai, { expect } from 'chai';
 import { getAlbum, getAlbums, getAlbumTracks } from '../src/album.js';
 import sinon from 'sinon';
