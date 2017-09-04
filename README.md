@@ -226,7 +226,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-| ![William Goulart](https://avatars1.githubusercontent.com/u/2000986?v=4&s=460)|
+| ![William Goulart](https://avatars1.githubusercontent.com/u/2000986?v=4&s=120)|
 |:---------------------:|
 |  [William Goulart](https://github.com/wgoulart/)   |
 
